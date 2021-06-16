@@ -1,0 +1,2 @@
+# Trading
+Estratégias de trading.
