@@ -29,3 +29,16 @@
 This is a boilerplate pipeline 'test'
 generated using Kedro 0.16.6
 """
+import pandas as pd
+from pandas import DataFrame
+import numpy as np
+from typing import Dict
+
+def prepare_sma_example(raw:DataFrame, params):
+    data = raw[['Date', 'EUR=']]
+    data = data.set_index('Date')
+    data = data.rename(columns={'EUR=': 'price'})
+    data['return'] = np.log(data['price'] / data['price'].shift(1))
+    data['SMA1'] = data['price'].rolling(params['sma']['SMA1']).mean()
+    data['SMA2'] = data['price'].rolling(params['sma']['SMA2']).mean()
+    return data

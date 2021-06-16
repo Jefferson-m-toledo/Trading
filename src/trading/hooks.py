@@ -35,6 +35,8 @@ from kedro.io import DataCatalog
 from kedro.pipeline import Pipeline
 from kedro.versioning import Journal
 
+from .pipelines import test
+
 
 class ProjectHooks:
     @hook_impl
@@ -45,6 +47,10 @@ class ProjectHooks:
             A mapping from a pipeline name to a ``Pipeline`` object.
 
         """
+        test_pipe = test.create_pipeline()
+        full_pipe = test_pipe
+        return {"test": test_pipe,
+                "__default__": full_pipe}
         return {"__default__": Pipeline([])}
 
     @hook_impl

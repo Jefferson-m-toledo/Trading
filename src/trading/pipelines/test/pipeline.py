@@ -32,7 +32,20 @@ generated using Kedro 0.16.6
 """
 
 from kedro.pipeline import Pipeline, node
-
+from .nodes import prepare_sma_example
 
 def create_pipeline(**kwargs):
-    return Pipeline([])
+    return Pipeline([
+        node(
+            func=lambda x:x,
+            inputs="sma_example_remote",
+            outputs="sma_example_local",
+            name="sma_example_extract"
+        ),
+        node(
+            func=prepare_sma_example,
+            inputs=["sma_example_local", "parameters"],
+            outputs="sma_example_tratado",
+            name="sma_example_transform"
+        )
+    ])
